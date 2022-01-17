@@ -35,38 +35,57 @@ func getColorByHex(hexColor string) color.RGBA {
 
 func wrapText(input string) []string {
 
-	var wrapped []string
+	/*
+		var wrapped []string
 
-	// Split string into array of words
-	words := strings.Fields(input)
-	wordsLength := len(words)
+		// Split string into array of words
+		words := strings.Fields(input)
+		wordsLength := len(words)
 
-	if wordsLength == 0 {
-		return wrapped
-	}
-
-	var lineText string
-
-	for i, word := range words {
-
-		if len(lineText)+len(word)+1 >= wrapWordsLen {
-			wrapped = append(wrapped, lineText)
-			lineText = word
-		} else {
-			if lineText == "" {
-				lineText += word
-			} else {
-				lineText += " " + word
-			}
-			//if it is the last word
-			if i == wordsLength-1 {
-				wrapped = append(wrapped, lineText)
-			}
-
+		if wordsLength == 0 {
+			return wrapped
 		}
 
+		var lineText string
+
+		for i, word := range words {
+
+			if len(lineText)+len(word)+1 >= wrapWordsLen {
+				wrapped = append(wrapped, lineText)
+				lineText = word
+			} else {
+				if lineText == "" {
+					lineText += word
+				} else {
+					lineText += " " + word
+				}
+				//if it is the last word
+				if i == wordsLength-1 {
+					wrapped = append(wrapped, lineText)
+				}
+
+			}
+
+		}*/
+
+	return chunkString(input, wrapWordsLen)
+
+}
+
+func chunkString(s string, chunkSize int) []string {
+	if chunkSize >= len(s) {
+		return []string{s}
 	}
 
-	return wrapped
+	var chunks []string
+	runes := []rune(s)
 
+	for i := 0; i < len(runes); i += chunkSize {
+		nn := i + chunkSize
+		if nn > len(runes) {
+			nn = len(runes)
+		}
+		chunks = append(chunks, string(runes[i:nn]))
+	}
+	return chunks
 }
